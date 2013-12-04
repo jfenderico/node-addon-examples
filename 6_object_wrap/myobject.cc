@@ -1,5 +1,5 @@
-#define BUILDING_NODE_EXTENSION
 #include <node.h>
+#include "nan.h"
 #include "myobject.h"
 
 using namespace v8;
@@ -16,25 +16,25 @@ void MyObject::Init(Handle<Object> target) {
   tpl->PrototypeTemplate()->Set(String::NewSymbol("plusOne"),
       FunctionTemplate::New(PlusOne)->GetFunction());
 
-  Persistent<Function> constructor = Persistent<Function>::New(tpl->GetFunction());
-  target->Set(String::NewSymbol("MyObject"), constructor);
+  NanCallback *constructor = new NanCallback(tpl->GetFunction());
+  target->Set(String::NewSymbol("MyObject"), constructor->GetFunction());
 }
 
-Handle<Value> MyObject::New(const Arguments& args) {
-  HandleScope scope;
+NAN_METHOD(MyObject::New) {
+  NanScope();
 
   MyObject* obj = new MyObject();
   obj->counter_ = args[0]->IsUndefined() ? 0 : args[0]->NumberValue();
   obj->Wrap(args.This());
 
-  return args.This();
+  NanReturnValue(args.This());
 }
 
-Handle<Value> MyObject::PlusOne(const Arguments& args) {
-  HandleScope scope;
+NAN_METHOD(MyObject::PlusOne) {
+  NanScope();
 
   MyObject* obj = ObjectWrap::Unwrap<MyObject>(args.This());
   obj->counter_ += 1;
 
-  return scope.Close(Number::New(obj->counter_));
+  NanReturnValue(Number::New(obj->counter_));
 }

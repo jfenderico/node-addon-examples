@@ -1,5 +1,5 @@
-#define BUILDING_NODE_EXTENSION
 #include <node.h>
+#include "nan.h"
 #include "myobject.h"
 
 using namespace v8;

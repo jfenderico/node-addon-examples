@@ -2,6 +2,7 @@
 #define MYOBJECT_H
 
 #include <node.h>
+#include "nan.h"
 
 class MyObject : public node::ObjectWrap {
  public:
@@ -11,8 +12,8 @@ class MyObject : public node::ObjectWrap {
   MyObject();
   ~MyObject();
 
-  static v8::Handle<v8::Value> New(const v8::Arguments& args);
-  static v8::Handle<v8::Value> PlusOne(const v8::Arguments& args);
+  static NAN_METHOD(New);
+  static NAN_METHOD(PlusOne);
   double counter_;
 };
 

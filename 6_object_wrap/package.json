@@ -4,5 +4,8 @@
   "description": "Node.js Addons Example #6",
   "main": "addon.js",
   "private": true,
-  "gypfile": true
+  "gypfile": true,
+  "dependencies": {
+    "nan": "~0.6.0"
+  }
 }
