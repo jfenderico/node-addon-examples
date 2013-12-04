@@ -1,21 +1,21 @@
-#define BUILDING_NODE_EXTENSION
 #include <node.h>
+#include "nan.h"
 
 using namespace v8;
 
-Handle<Value> MyFunction(const Arguments& args) {
-  HandleScope scope;
-  return scope.Close(String::New("hello world"));
+NAN_METHOD(MyFunction) {
+  NanScope();
+  NanReturnValue(String::New("hello world"));
 }
 
-Handle<Value> CreateFunction(const Arguments& args) {
-  HandleScope scope;
+NAN_METHOD(CreateFunction) {
+  NanScope();
 
   Local<FunctionTemplate> tpl = FunctionTemplate::New(MyFunction);
   Local<Function> fn = tpl->GetFunction();
   fn->SetName(String::NewSymbol("theFunction")); // omit this to make it anonymous
 
-  return scope.Close(fn);
+  NanReturnValue(fn);
 }
 
 void Init(Handle<Object> exports, Handle<Object> module) {
